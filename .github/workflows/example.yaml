@@ -228,5 +228,4 @@ jobs:
           pr
           merge
           --auto
-          --delete-branch
           --squash
