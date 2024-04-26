@@ -1,0 +1,8 @@
+# Create podinfo Helm repository
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: stefanprodan
+spec:
+  type: oci
+  url: oci://ghcr.io/stefanprodan/charts

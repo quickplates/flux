@@ -1,0 +1,8 @@
+# Create metrics Helm repository
+apiVersion: source.toolkit.fluxcd.io/v1beta2
+kind: HelmRepository
+metadata:
+  name: metrics
+spec:
+  type: default
+  url: https://kubernetes-sigs.github.io/metrics-server

@@ -1,0 +1,22 @@
+# Create metrics-helm Kustomization
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: metrics-helm
+spec:
+  # Path inside repository to a directory containing Kustomization files
+  path: tests/clusters/ci/dummy/infrastructure/metrics/kustomize/metrics-helm/kustomize
+  dependsOn:
+    # Deploy namespace first
+    - name: metrics-namespace
+  # This key always needs to be here for patching to work
+  patches:
+    # Disable certificate verification as kind doesn't have them set up
+    - target:
+        group: helm.toolkit.fluxcd.io
+        kind: HelmRelease
+        name: metrics
+      patch: |
+        - op: add
+          path: /spec/values/args/-
+          value: --kubelet-insecure-tls

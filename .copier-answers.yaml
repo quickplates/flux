@@ -1,0 +1,12 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: 0.7.1
+_src_path: gh:quickplates/meta
+accountname: quickplates
+description: Flux manifests template ☸️
+example: true
+exampleaccountname: quickplates
+exampledescription: Flux manifests example ☸️
+examplereponame: flux-example
+reponame: flux
+repourl: https://github.com/quickplates/flux
+type: generic

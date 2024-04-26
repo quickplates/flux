@@ -1,0 +1,10 @@
+# Create podinfo-namespace Kustomization
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: podinfo-namespace
+spec:
+  # Path inside repository to a directory containing Kustomization files
+  path: tests/clusters/ci/dummy/apps/podinfo/kustomize/podinfo-namespace/kustomize
+  # This key always needs to be here for patching to work
+  patches: []

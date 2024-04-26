@@ -1,0 +1,28 @@
+# Create podinfo Helm release
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: podinfo
+spec:
+  chart:
+    spec:
+      # Use this chart from the repository
+      chart: podinfo
+      # Pin version to major
+      version: "6.x"
+      # Use this Helm repository
+      sourceRef:
+        kind: HelmRepository
+        name: stefanprodan
+  # This key always needs to be here for patching to work
+  postRenderers:
+    - kustomize:
+        patches:
+          # Needed due to a bug in Kustomize that changes null to "null"
+          - target:
+              group: apps
+              kind: Deployment
+              name: podinfo
+            patch: |
+              - op: remove
+                path: /spec/template/spec/containers/0/resources/limits
