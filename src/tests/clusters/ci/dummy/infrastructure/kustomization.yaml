@@ -1,0 +1,152 @@
+# Create infrastructure Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# Include the following resources
+resources:
+  - metrics/metrics.yaml
+# Apply patches for common configurations
+patches:
+  # Set patch to add labels to all resources in nested Kustomizations
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+    patch: |
+      - op: add
+        path: /spec/patches/-
+        value:
+          target:
+            group: kustomize.toolkit.fluxcd.io
+            kind: Kustomization
+            name: .*
+          patch: |
+            kind: .
+            metadata:
+              name: .
+            spec:
+              commonMetadata:
+                labels:
+                  layer: infrastructure
+  # Set patch to add labels to all resources
+  # created by HelmRelease in nested Kustomizations
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+    patch: |
+      - op: add
+        path: /spec/patches/-
+        value:
+          target:
+            group: kustomize.toolkit.fluxcd.io
+            kind: Kustomization
+          patch: |
+            - op: add
+              path: /spec/patches/-
+              value:
+                target:
+                  kind: HelmRelease
+                patch: |
+                  - op: add
+                    path: /spec/postRenderers/-
+                    value:
+                      kustomize:
+                        patches:
+                          - target:
+                              name: .*
+                            patch: |
+                              kind: .
+                              metadata:
+                                name: .
+                                labels:
+                                  layer: infrastructure
+                          - target:
+                              group: apps
+                              kind: Deployment
+                              name: .*
+                            patch: |
+                              kind: .
+                              metadata:
+                                name: .
+                              spec:
+                                template:
+                                  metadata:
+                                    labels:
+                                      layer: infrastructure
+                          - target:
+                              group: apps
+                              kind: ReplicaSet
+                              name: .*
+                            patch: |
+                              kind: .
+                              metadata:
+                                name: .
+                              spec:
+                                template:
+                                  metadata:
+                                    labels:
+                                      layer: infrastructure
+                          - target:
+                              group: apps
+                              kind: StatefulSet
+                              name: .*
+                            patch: |
+                              kind: .
+                              metadata:
+                                name: .
+                              spec:
+                                template:
+                                  metadata:
+                                    labels:
+                                      layer: infrastructure
+                          - target:
+                              group: apps
+                              kind: DaemonSet
+                              name: .*
+                            patch: |
+                              kind: .
+                              metadata:
+                                name: .
+                              spec:
+                                template:
+                                  metadata:
+                                    labels:
+                                      layer: infrastructure
+                          - target:
+                              group: batch
+                              kind: Job
+                              name: .*
+                            patch: |
+                              kind: .
+                              metadata:
+                                name: .
+                              spec:
+                                template:
+                                  metadata:
+                                    labels:
+                                      layer: infrastructure
+                          - target:
+                              group: batch
+                              kind: CronJob
+                              name: .*
+                            patch: |
+                              kind: .
+                              metadata:
+                                name: .
+                              spec:
+                                jobTemplate:
+                                  spec:
+                                    template:
+                                      metadata:
+                                        labels:
+                                          layer: infrastructure
+                          - target:
+                              kind: ReplicationController
+                              name: .*
+                            patch: |
+                              kind: .
+                              metadata:
+                                name: .
+                              spec:
+                                template:
+                                  metadata:
+                                    labels:
+                                      layer: infrastructure

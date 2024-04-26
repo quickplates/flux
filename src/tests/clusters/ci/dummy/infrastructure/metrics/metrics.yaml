@@ -1,0 +1,22 @@
+# Create metrics Kustomization
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: metrics
+spec:
+  # Path inside repository to a directory containing Kustomization files
+  path: tests/clusters/ci/dummy/infrastructure/metrics/kustomize
+  # Apply patches for common configurations
+  # This key always needs to be here for patching to work
+  patches:
+    # Set target namespace
+    - target:
+        group: kustomize.toolkit.fluxcd.io
+        kind: Kustomization
+        name: .*
+      patch: |
+        kind: .
+        metadata:
+          name: .
+        spec:
+          targetNamespace: metrics

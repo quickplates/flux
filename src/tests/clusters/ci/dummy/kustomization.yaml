@@ -1,0 +1,132 @@
+# Create main Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+# Include the following resources
+resources:
+  - apps
+  - infrastructure
+# Apply patches for common configurations
+patches:
+  # Set namespace for Kustomizations
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+    patch: |
+      - op: add
+        path: /metadata/namespace
+        value: flux-system
+  # Set common configuration for Kustomizations
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+      name: .*
+    patch: |
+      kind: .
+      metadata:
+        name: .
+      spec:
+        sourceRef:
+          kind: GitRepository
+          name: main
+        interval: 1m
+        retryInterval: 1m
+        prune: true
+        wait: true
+  # Set namespace for nested Kustomizations
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+    patch: |
+      - op: add
+        path: /spec/patches/-
+        value:
+          target:
+            group: kustomize.toolkit.fluxcd.io
+            kind: Kustomization
+          patch: |
+            - op: add
+              path: /metadata/namespace
+              value: flux-system
+  # Set common configuration for nested Kustomizations
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+    patch: |
+      - op: add
+        path: /spec/patches/-
+        value:
+          target:
+            group: kustomize.toolkit.fluxcd.io
+            kind: Kustomization
+            name: .*
+          patch: |
+            kind: .
+            metadata:
+              name: .
+            spec:
+              sourceRef:
+                kind: GitRepository
+                name: main
+              interval: 1m
+              retryInterval: 1m
+              prune: true
+              wait: true
+  # Set common configuration for HelmRepositories in nested Kustomizations
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+    patch: |
+      - op: add
+        path: /spec/patches/-
+        value:
+          target:
+            group: kustomize.toolkit.fluxcd.io
+            kind: Kustomization
+          patch: |
+            - op: add
+              path: /spec/patches/-
+              value:
+                target:
+                  kind: HelmRepository
+                  name: .*
+                patch: |
+                  kind: .
+                  metadata:
+                    name: .
+                  spec:
+                    interval: 1m
+  # Set common configuration for HelmReleases in nested Kustomizations
+  - target:
+      group: kustomize.toolkit.fluxcd.io
+      kind: Kustomization
+    patch: |
+      - op: add
+        path: /spec/patches/-
+        value:
+          target:
+            group: kustomize.toolkit.fluxcd.io
+            kind: Kustomization
+          patch: |
+            - op: add
+              path: /spec/patches/-
+              value:
+                target:
+                  kind: HelmRelease
+                  name: .*
+                patch: |
+                  kind: .
+                  metadata:
+                    name: .
+                  spec:
+                    chart:
+                      spec:
+                        interval: 1m
+                    driftDetection:
+                      mode: enabled
+                    interval: 1m
+                    install:
+                      remediation:
+                        retries: 3
+                    upgrade:
+                      remediation:
+                        retries: 3

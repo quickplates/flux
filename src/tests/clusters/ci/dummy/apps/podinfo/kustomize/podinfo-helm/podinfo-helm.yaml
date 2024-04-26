@@ -1,0 +1,13 @@
+# Create podinfo-helm Kustomization
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: podinfo-helm
+spec:
+  # Path inside repository to a directory containing Kustomization files
+  path: tests/clusters/ci/dummy/apps/podinfo/kustomize/podinfo-helm/kustomize
+  dependsOn:
+    # Deploy namespace first
+    - name: podinfo-namespace
+  # This key always needs to be here for patching to work
+  patches: []
