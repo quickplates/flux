@@ -1,0 +1,2 @@
+# flux
+Flux manifests template ☸️
