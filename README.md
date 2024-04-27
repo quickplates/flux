@@ -15,8 +15,7 @@ Flux manifests template ☸️
 ## 💡 About
 
 This repository contains a [`copier`](https://copier.readthedocs.io) template
-that can be used to create projects for
-[`quickplates`](https://github.com/quickplates).
+that can be used to create [`Flux`](https://fluxcd.io) manifests.
 
 You can view the example of project generated from this template
 [**here**](https://github.com/quickplates/flux-example).
