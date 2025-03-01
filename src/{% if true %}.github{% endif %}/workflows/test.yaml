@@ -39,6 +39,8 @@ jobs:
       # Needed to checkout code
       contents: read
     steps:
+      - name: Disable restricted unprivileged user namespaces
+        run: sudo sysctl -w kernel.apparmor_restrict_unprivileged_userns=0
       - name: Free disk space
         uses: jlumbroso/free-disk-space@v1.3.1
       - name: Checkout code
