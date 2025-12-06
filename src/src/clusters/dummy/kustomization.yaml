@@ -11,7 +11,7 @@ patches:
   - target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization
-    patch: |
+    patch: |-
       - op: add
         path: /metadata/namespace
         value: flux-system
@@ -20,7 +20,7 @@ patches:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization
       name: .*
-    patch: |
+    patch: |-
       kind: .
       metadata:
         name: .
@@ -36,14 +36,14 @@ patches:
   - target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization
-    patch: |
+    patch: |-
       - op: add
         path: /spec/patches/-
         value:
           target:
             group: kustomize.toolkit.fluxcd.io
             kind: Kustomization
-          patch: |
+          patch: |-
             - op: add
               path: /metadata/namespace
               value: flux-system
@@ -51,7 +51,7 @@ patches:
   - target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization
-    patch: |
+    patch: |-
       - op: add
         path: /spec/patches/-
         value:
@@ -59,7 +59,7 @@ patches:
             group: kustomize.toolkit.fluxcd.io
             kind: Kustomization
             name: .*
-          patch: |
+          patch: |-
             kind: .
             metadata:
               name: .
@@ -79,21 +79,21 @@ patches:
   - target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization
-    patch: |
+    patch: |-
       - op: add
         path: /spec/patches/-
         value:
           target:
             group: kustomize.toolkit.fluxcd.io
             kind: Kustomization
-          patch: |
+          patch: |-
             - op: add
               path: /spec/patches/-
               value:
                 target:
                   kind: HelmRepository
                   name: .*
-                patch: |
+                patch: |-
                   kind: .
                   metadata:
                     name: .
@@ -103,21 +103,21 @@ patches:
   - target:
       group: kustomize.toolkit.fluxcd.io
       kind: Kustomization
-    patch: |
+    patch: |-
       - op: add
         path: /spec/patches/-
         value:
           target:
             group: kustomize.toolkit.fluxcd.io
             kind: Kustomization
-          patch: |
+          patch: |-
             - op: add
               path: /spec/patches/-
               value:
                 target:
                   kind: HelmRelease
                   name: .*
-                patch: |
+                patch: |-
                   kind: .
                   metadata:
                     name: .

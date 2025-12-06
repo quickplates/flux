@@ -14,7 +14,7 @@ spec:
         group: kustomize.toolkit.fluxcd.io
         kind: Kustomization
         name: .*
-      patch: |
+      patch: |-
         kind: .
         metadata:
           name: .
