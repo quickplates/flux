@@ -28,7 +28,7 @@ patches:
         sourceRef:
           kind: GitRepository
           name: main
-        interval: 5m
+        interval: 1m
         retryInterval: 1m
         prune: true
         wait: true
@@ -67,11 +67,7 @@ patches:
               sourceRef:
                 kind: GitRepository
                 name: main
-              decryption:
-                provider: sops
-                secretRef:
-                  name: sops-keys
-              interval: 5m
+              interval: 1m
               retryInterval: 1m
               prune: true
               wait: true
@@ -98,7 +94,7 @@ patches:
                   metadata:
                     name: .
                   spec:
-                    interval: 5m
+                    interval: 1m
   # Set common configuration for HelmReleases in nested Kustomizations
   - target:
       group: kustomize.toolkit.fluxcd.io
@@ -124,10 +120,10 @@ patches:
                   spec:
                     chart:
                       spec:
-                        interval: 5m
+                        interval: 1m
                     driftDetection:
                       mode: enabled
-                    interval: 5m
+                    interval: 1m
                     install:
                       crds: CreateReplace
                       remediation:

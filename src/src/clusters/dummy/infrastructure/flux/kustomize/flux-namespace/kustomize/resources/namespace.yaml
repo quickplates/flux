@@ -1,0 +1,5 @@
+# Create flux-system namespace
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: flux-system
