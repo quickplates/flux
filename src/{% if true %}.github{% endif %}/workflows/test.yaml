@@ -57,15 +57,15 @@ jobs:
           cluster_name: ${{ matrix.cluster }}
           kubectl_version: v1.33.3
       - name: Setup Flux
-        uses: fluxcd/flux2/action@v2.5.1
+        uses: fluxcd/flux2/action@v2.8.7
         with:
-          version: v2.5.1
+          version: v2.8.7
       - name: Install Flux in cluster
         run: >-
           flux
           install
           --version
-          v2.5.1
+          v2.8.7
       - name: Add source to Flux
         run: >-
           flux
@@ -92,7 +92,7 @@ jobs:
           --source
           main
           --path
-          'tests/clusters/ci/${{ matrix.cluster }}'
+          'tests/clusters/${{ matrix.cluster }}'
           --wait
           --timeout
           20m
